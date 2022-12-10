@@ -37,7 +37,29 @@ const rucksack_reorganisation = (filename) => {
     }
 
     return totalPriority;
-
 }
 
-console.log(rucksack_reorganisation(filename));
+const findBadge = (rucksack1, rucksack2, rucksack3) => {
+    let letters = new Set();
+
+    for (let i = 0; i < rucksack1.length; i++) {
+        letters.add(rucksack1.charAt(i));
+    }
+
+    for (let i = 0; i < rucksack2.length; i++) {
+        if (letters.has(rucksack2.charAt(i)) && rucksack3.includes(rucksack2.charAt(i))) {
+            return rucksack2.charAt(i);
+        }
+    }
+}
+
+const findAuthKeys = (filename) => {
+    const rucksacks = syncReadFile(filename);
+    let totalPriority = 0;
+
+    for (let i = 0; i < rucksacks.length; i += 3) {
+        totalPriority += convertToPriority(findBadge(rucksacks[i], rucksacks[i+1], rucksacks[i+2]))
+    }
+    return(totalPriority);
+}
+console.log(findAuthKeys(filename));
