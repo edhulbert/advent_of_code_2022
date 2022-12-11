@@ -13,7 +13,7 @@ const syncReadFile = (filename) => {
     return array;
 }
 
-const campCleanup = (filename) => {
+const findFullOverlap = (filename) => {
     const pairs = syncReadFile(filename);
     let redundantPairs = 0;
     let array;
@@ -27,4 +27,18 @@ const campCleanup = (filename) => {
     return redundantPairs;
 }
 
-console.log(campCleanup(filename));
+const findPartialOverlap = (filename) => {
+    const pairs = syncReadFile(filename);
+    let overlaps = 0;
+    let minA,maxA,minB,maxB;
+
+    for (let i = 0; i < pairs.length; i++) {
+        [minA,maxA,minB,maxB] = pairs[i];
+
+        if (!(minB > maxA || minA > maxB)) overlaps++;
+    }
+
+    return overlaps;
+}
+
+console.log(findPartialOverlap(filename));
